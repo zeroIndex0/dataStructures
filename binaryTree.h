@@ -7,6 +7,7 @@
 #ifndef BINARYTREE_H
 #define BINARYTREE_H
 
+//#include <iostream>
 
 template<typename T>
 class BinaryTree {
@@ -82,10 +83,26 @@ public:
         }
     }
 
+//a function that returns the height of the tree
+//after some frustration I learned that i didnt have to start by passing in a root node
+//and that its starts at the root node without specifying.
+    int getHeight() {
+        int leftHeight = 0, rightHeight = 0;
+
+        //std::cout << "Debug: " << this->getData() << std::endl;
+        if(left) {
+            leftHeight = left->getHeight();
+        }
+        if(right) {
+            rightHeight = right->getHeight();
+        }
+
+    return 1 + (leftHeight > rightHeight ? leftHeight : rightHeight);
+    }
+
 
 //TODO add a way to get ancestors and what not, like getParent(), getUncle()
 //     also a way to print out the tree to make sure its working properly so I can stop looking in the debugger
-//     also add a way to get the height.  I think its importat for printing the tree and I have an idea as to how to do it
 
 private:
     //data elements
