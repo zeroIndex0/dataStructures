@@ -66,5 +66,10 @@ int main(void) {
         cout << "Found " << searchNodes->getData() << endl;
     }
 
+    cout << endl;  //giving some space between outputs
+
+    //Testing out the getHeight function added to binaryTree.h
+    cout << "The tree height is: " << t->getHeight() << endl;
+
 return 0;
 }
