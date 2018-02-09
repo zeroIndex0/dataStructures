@@ -7,6 +7,10 @@
 // or even a better way to cycle through the list without the printList() which uses a call to cout in the header file
 //  maybe something like creating custom iterators, but I'm not very familiar with something like that
 
+//I updated the linked list class, so this will now print commas which will make the output of this look a little funny
+//But I feel that its a more logical way to print the list and will update this test file at some point to match the new output
+//I also added a constructor if data is passed in, so i could test that now as well
+
 #include <iostream>
 #include "linkedList.h"
 
