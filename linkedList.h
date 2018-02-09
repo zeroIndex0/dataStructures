@@ -1,6 +1,10 @@
 //
-// a linked list class
+//
+//
+// linkedList.h
 
+// a linked list class
+// TODO:  Add a delete function
 
 #ifndef LINKEDLIST_H
 #define LINKEDLIST_H
@@ -15,7 +19,12 @@ public:
 
     //constructor
     List() {
-    head = tail = NULL;
+        head = tail = NULL;
+    }
+
+    List(T data) {
+        head = tail = NULL;
+        append(data);
     }
 
     //destructor deletes the nodes
@@ -80,6 +89,21 @@ public:
     }
 
 
+    //Returns true if the data is found in the list
+    bool Search(T data) {
+        Node *current;
+
+        current = head;
+
+        while(current) {
+            if(current->data == data)
+                return true;
+            current = current->next;
+        }
+        return false;
+    }
+
+
     void printList() {
         Node *current;
 
@@ -88,7 +112,7 @@ public:
 
         //go through all the nodes and print them out
         while(current) {
-            std::cout << current->data;
+            std::cout << current->data << ", ";
             current = current->next;
         }
     }
