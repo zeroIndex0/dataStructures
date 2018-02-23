@@ -4,7 +4,8 @@
 // linkedList.h
 
 // a linked list class
-// TODO:  Add a delete function
+// TODO:  Add a delete function and an insert function
+//        Keep adding to iterators as I believe that's how ill be able to create my delete and insert functions
 
 #ifndef LINKEDLIST_H
 #define LINKEDLIST_H
@@ -15,6 +16,9 @@
 template <typename T>
 class List {
 
+private:
+    class Node;  //forward declaration to appease the iterator class
+
 public:
 
     //constructor
@@ -22,6 +26,7 @@ public:
         head = tail = NULL;
     }
 
+    //Im still a little torn on having a constructor like this. I'm currently not really seeing a purpose for it
     List(T data) {
         head = tail = NULL;
         append(data);
@@ -79,6 +84,15 @@ public:
 
     }
 
+    //in order to insert data i have to know the location to add the data to, that will be the tricky part.
+    void addData(T data) {
+
+    }
+
+    void eliminate(T data) {
+
+    }
+
     //function that returns true if the list is empty
     bool isEmpty() {
         //if the head is empty, we have nothing in the list
@@ -118,6 +132,64 @@ public:
     }
 
 
+    //iterator class
+    class iterator {
+    //class Node;   //I suppose this is like a function header for classes 'Forward Declaration' I believe is what its called
+    //forward declaration here was not enough.  I had to place it at the very start of the List<T> class itself.
+    public:
+        //constructor
+        iterator(Node *node) {
+            current = node;
+        }
+
+        T &operator*() {
+            return current->data;
+        }
+
+        iterator &operator++() {
+            if(current->next)
+                current = current->next;
+            return *this;
+        }
+
+        bool operator<(iterator rhs) {
+            return (current < rhs.current);
+        }
+
+        bool operator<=(const iterator &rhs) {
+            //The only thing i can think of right now is to have a way to check if my last pass over was == and that would mean that i have to create
+            //a data member in Node just for this function and that honestly seems a bit sloppy to me.  It would be nice if i knew someone i could ask
+            if(current <= rhs.current){
+                    //something kind of interesting to note here is that even though rhs is const i can still modify the boolean value in Node
+                    if(current == rhs.current && rhs.current->check == true) {
+                        //if we are there then we have hit the end of the list and need to return false;
+                        rhs.current->check = false;
+                        return false;
+                    }
+                    if(current == rhs.current && rhs.current->check == false){
+                        rhs.current->check = true;
+                    }
+                return true;
+            }
+        }
+
+    private:
+        Node *current;
+
+    };
+
+
+    //I dont understand why this isnt working.  'no matching function call to 'List<int>::iterator::iterator(List<int>::Node *&)'
+    //why are there two iterator scopes in there?
+    iterator begin() {
+        return iterator(head);
+    }
+
+    iterator end() {
+        return iterator(tail);
+    }
+
+
 
 private:
     //a private class Node to give the list its storage
@@ -127,6 +199,7 @@ private:
         T data; //the data
         Node *next;  //link for whats next in line
         Node *prev;  //link for the previous node
+        bool check = false;  //used currently for overloaded operator <=
 
         //constructor builds the node with each next as null
         Node () {
