@@ -23,12 +23,12 @@ public:
 
     //constructor
     List() {
-        head = tail = NULL;
+        head = tail = nullptr;
     }
 
     //Im still a little torn on having a constructor like this. I'm currently not really seeing a purpose for it
     List(T data) {
-        head = tail = NULL;
+        head = tail = nullptr;
         append(data);
     }
 
@@ -54,6 +54,7 @@ public:
         //special case of having an empty list
         if(isEmpty()) {
             head = tail = node;
+            node->prev = nullptr;   //the very fist node must show there is nothing before it
             return;
         }
 
@@ -76,9 +77,11 @@ public:
         }
 
         //this is at the front of the list and there will be nothing in previous
-        node->prev = NULL;
+        node->prev = nullptr;
         //the current nodes next pointer will point to the old head
         node->next = head;
+        //need to reset the connection of the old front that pointed to null, to point to the new front of the list
+        node->next->prev = node;
         //update the head to the current node witch is now the front of the list
         head = node;
 
@@ -96,7 +99,7 @@ public:
     //function that returns true if the list is empty
     bool isEmpty() {
         //if the head is empty, we have nothing in the list
-        if(head == NULL) //I had a semi colon here to begin with, what a nasty bug that turned out to be
+        if(head == nullptr) //I had a semi colon here to begin with, what a nasty bug that turned out to be
         return true;
         //else
         return false;
@@ -152,14 +155,57 @@ public:
             return *this;
         }
 
+        iterator &operator++(int) {
+            iterator tmp(*this);
+            if(current->next)
+                current = current->next;
+            return tmp;
+        }
+
+        iterator &operator--() {
+            if(current->prev) {
+                current = current->prev;
+            } // else { could i return something and eliminate the bool check from node class...}
+            return *this;
+        }
+
+        iterator &operator--(int) {
+            iterator tmp(*this);
+            if(current->prev)
+                current = current->prev;
+            return tmp;
+        }
+
+        bool operator==(const iterator &rhs) {
+            return current == rhs.current;
+        }
+
+        bool operator!=(const iterator &rhs) {
+            return current != rhs.current;
+        }
+
+
+        /*
+                                    ==== Until i can fix the addressing issue, i cannot use comparison operators   ====
+                                    ---- Adding items to the front of the list puts a larger address at the start  ----
+                                      -- Which makes any kind of comparison completely useless..                   --
+                                       - Ive spent a lot of time so far trying to figure out a fix, with no result -
+
+
+
         bool operator<(iterator rhs) {
             return (current < rhs.current);
+        }
+
+        bool operator>(iterator rhs) {
+            return (current > rhs.current);
         }
 
         bool operator<=(const iterator &rhs) {
             //The only thing i can think of right now is to have a way to check if my last pass over was == and that would mean that i have to create
             //a data member in Node just for this function and that honestly seems a bit sloppy to me.  It would be nice if i knew someone i could ask
             if(current <= rhs.current){
+                    std::cout << "Current: " << current << "    rhs.current: " << rhs.current << std::endl;
                     //something kind of interesting to note here is that even though rhs is const i can still modify the boolean value in Node
                     if(current == rhs.current && rhs.current->check == true) {
                         //if we are there then we have hit the end of the list and need to return false;
@@ -171,7 +217,31 @@ public:
                     }
                 return true;
             }
+            return false;
         }
+
+        //TODO:  Figure out how to sequence addressing, otherwise operation comparison on addresses will be useless
+        //INTERESTING... If i prepend data it shoves the value in the front and messes up the addressing
+        //               so if i prepend my data i cannot use this function, how could that problem be fixed?
+        //               I have no idea as to how i can fix this addressing issue.  I have found nothing online about something like this.
+        bool operator>=(const iterator &rhs) {
+            std::cout << "Current: " << current << "    rhs.current: " << rhs.current << std::endl;
+            if(current >= rhs.current){
+                    //std::cout << "Current: " << current << "    rhs.current: " << rhs.current << std::endl;
+                    //something kind of interesting to note here is that even though rhs is const i can still modify the boolean value in Node
+                    if(current == rhs.current && rhs.current->check == true) {
+                        //if we are there then we have hit the end of the list and need to return false;
+                        rhs.current->check = false;
+                        return false;
+                    }
+                    if(current == rhs.current && rhs.current->check == false){
+                        rhs.current->check = true;
+                    }
+                return true;
+            }
+            return true;
+        }
+        */
 
     private:
         Node *current;
@@ -179,8 +249,6 @@ public:
     };
 
 
-    //I dont understand why this isnt working.  'no matching function call to 'List<int>::iterator::iterator(List<int>::Node *&)'
-    //why are there two iterator scopes in there?
     iterator begin() {
         return iterator(head);
     }
@@ -203,7 +271,7 @@ private:
 
         //constructor builds the node with each next as null
         Node () {
-        next = NULL;
+        next = nullptr;
         }
 
     };
