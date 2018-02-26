@@ -8,10 +8,6 @@
 //  maybe something like creating custom iterators, but I'm not very familiar with something like that
 
 
-//I updated the linked list class, so this will now print commas which will make the output of this look a little funny
-//But I feel that its a more logical way to print the list and will update this test file at some point to match the new output
-//I also added a constructor if data is passed in, so i could test that now as well
-
 #include <iostream>
 #include "linkedList.h"
 
@@ -44,8 +40,9 @@ int main(void) {
 
 
     //a list of ints
+    anotherList.append(1);
     anotherList.append(2);
-    anotherList.prepend(1);
+    anotherList.prepend(0);
     anotherList.append(3);
     anotherList.printList();
 
@@ -67,13 +64,35 @@ int main(void) {
     //std::cout << "it " << it << std::endl;    //so this wont work, but *it will work..what... why?  It should print out an address..
     std::cout << "*it = " << *it << std::endl;
 
-    //Look how beautiful this for loop is!  Overloaded entertainment
-    for(List<int>::iterator itr = anotherList.begin(); itr <= anotherList.end(); ++itr) {
-            std::cout << *itr << std::endl;
-    }
-
     List<std::string>::iterator ite = list.begin();
     std::cout << "*ite = " << *ite << std::endl;
+
+    std::cout << std::endl;
+
+
+    //Interesting issue for these... my begin() and end() return the head and tail, so they behave a little different than i was expecting
+    //If i say != then ill never get the head value or tail value, so i >= <= comparisons in order to properly traverse the whole list.
+    //or some sort of dummy value at the beginning or end, I think the dummy values would be better actually and have begin and end return just past themselves
+    for(List<int>::iterator itr = anotherList.begin(); itr != anotherList.end(); itr++) {
+        std::cout << "*itr = " << *itr << std::endl;
+    }
+
+    std::cout << std::endl;
+
+    for(List<int>::iterator itr = anotherList.end(); itr != anotherList.begin(); itr--) {
+        std::cout << "*itr = " << *itr << std::endl;
+    }
+
+
+    /*  I need to solve an addressing issue before i can use these for loops since <, >, <=, >= will not perform with my current prepend function, sadly
+    for(List<int>::iterator itr = anotherList.begin(); itr <= anotherList.end(); itr++) {
+        std::cout << *itr << std::endl;
+    }
+    std::cout << std::endl;  //give a gap
+    for(List<int>::iterator itre = anotherList.end(); itre >= anotherList.begin(); --itre) {
+        std::cout << *itre << std::endl;
+    }
+    */
 
 
 return 0;
