@@ -163,9 +163,8 @@ public:
         }
 
         iterator &operator--() {
-            if(current->prev) {
+            if(current->prev)
                 current = current->prev;
-            } // else { could i return something and eliminate the bool check from node class...}
             return *this;
         }
 
@@ -191,13 +190,14 @@ public:
                                       -- Which makes any kind of comparison completely useless..                   --
                                        - Ive spent a lot of time so far trying to figure out a fix, with no result -
 
+// A linked list has no guarantee that the elements will be in a contiguous location.  Therefore comparisons of < > <= >= cannot be used?
+// I will remove these functions soon if i cannot find another way.  No point in having a lot of garbage everywhere.
 
-
-        bool operator<(iterator rhs) {
+        bool operator<(const iterator &rhs) {
             return (current < rhs.current);
         }
 
-        bool operator>(iterator rhs) {
+        bool operator>(const iterator &rhs) {
             return (current > rhs.current);
         }
 
@@ -239,7 +239,7 @@ public:
                     }
                 return true;
             }
-            return true;
+            return false;
         }
         */
 
@@ -267,7 +267,7 @@ private:
         T data; //the data
         Node *next;  //link for whats next in line
         Node *prev;  //link for the previous node
-        bool check = false;  //used currently for overloaded operator <=
+        //bool check = false;  //used currently for overloaded operators <= >= < > but addressing issues are keeping those from being used.
 
         //constructor builds the node with each next as null
         Node () {
