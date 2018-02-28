@@ -71,10 +71,37 @@ int main(void) {
 
 
     //Interesting issue for these... my begin() and end() return the head and tail, so they behave a little different than i was expecting
-    //If i say != then ill never get the head value or tail value, so i >= <= comparisons in order to properly traverse the whole list.
-    //or some sort of dummy value at the beginning or end, I think the dummy values would be better actually and have begin and end return just past themselves
+    //Whatever i set the start to is fine.  But with != to the end, it stops when they are equal and will not spit out the correct last value
+    //but if i return a value just after the tail or before the head, ill run into the issue of which ever one is created first wont work
+    //i.e. x.begin() != x.end()+1   x.end() != x.begin()+1  but they cant natively be +1 or the first value will be incorrect
     for(List<int>::iterator itr = anotherList.begin(); itr != anotherList.end(); itr++) {
         std::cout << "*itr = " << *itr << std::endl;
+    }
+    std::cout << std::endl;
+
+
+    //a while loop works with boolean checks.  The thing i really dont like about this though is im no longer able to scope my variables
+    //and having to maintain them for life seems annoying and not the functionality I was hoping for
+    bool check = false;
+    List<int>::iterator iter = anotherList.begin();
+
+    while(!check) {
+        std::cout << "*iter = " << *iter << std::endl;
+        if(iter == anotherList.end())
+            check = true;
+        else
+            iter++;
+    }
+
+    std::cout << std::endl;
+    check = false;
+
+    while(!check) {
+        std::cout << "*iter = " << *iter << std::endl;
+        if(iter == anotherList.begin())
+            check = true;
+        else
+            iter--;
     }
 
     std::cout << std::endl;
@@ -82,18 +109,6 @@ int main(void) {
     for(List<int>::iterator itr = anotherList.end(); itr != anotherList.begin(); itr--) {
         std::cout << "*itr = " << *itr << std::endl;
     }
-
-
-    /*  I need to solve an addressing issue before i can use these for loops since <, >, <=, >= will not perform with my current prepend function, sadly
-    for(List<int>::iterator itr = anotherList.begin(); itr <= anotherList.end(); itr++) {
-        std::cout << *itr << std::endl;
-    }
-    std::cout << std::endl;  //give a gap
-    for(List<int>::iterator itre = anotherList.end(); itre >= anotherList.begin(); --itre) {
-        std::cout << *itre << std::endl;
-    }
-    */
-
 
 return 0;
 }
