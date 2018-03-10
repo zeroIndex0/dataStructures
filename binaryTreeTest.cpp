@@ -49,7 +49,7 @@ void inOrder(BinaryTree<int> *t) {
 void postOrder(BinaryTree<int> *t) {
     if(t) {
         if(t->getLeft())
-            postOrder(t->getLeft());  //LOL i left inOrder in the fucking post order function XD
+            postOrder(t->getLeft());
         if(t->getRight())
             postOrder(t->getRight());
         cout << t->getData() << " ";
