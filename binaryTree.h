@@ -15,7 +15,7 @@ public:
 
 //constructor
     BinaryTree(T data) {
-        left = right = parent = NULL;
+        left = right = parent = nullptr;
         this->data = data;
     }
 
@@ -42,10 +42,6 @@ public:
         right = node;
         //make sure to attach the parent
         node->parent = this;
-        //right->parent = this;  //would this be node->parent = this;
-        // They are the same thing, but 'node' makes a bit more sense when you read it
-        // Since its actually this->right->parent = this
-        // and (the newly created) node->parent = this; just reads better
     }
 
 
@@ -72,20 +68,19 @@ public:
             return this;
         if(data < this->getData()) {
             if(!this->getLeft()) {
-                return NULL;
+                return nullptr;
             }
             this->getLeft()->search(data);
         } else {
             if(!this->getRight()) {
-                return NULL;
+                return nullptr;
             }
             this->getRight()->search(data);
         }
+        //leaving off a return throws a complier warning, but this is a recursive function and the return here is not needed
     }
 
 //a function that returns the height of the tree
-//after some frustration I learned that i didnt have to start by passing in a root node
-//and that its starts at the root node without specifying.
     int getHeight() {
         int leftHeight = 0, rightHeight = 0;
 
