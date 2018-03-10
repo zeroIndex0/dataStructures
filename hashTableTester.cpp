@@ -5,6 +5,7 @@
 
 // testing out the the hash table
 // Nothing serious or i would not add quit into the table and i would give better options for exiting and handling special characters, etc...
+// Now with sizing!  You can create the hash table with a custom size via its constructor
 
 
 #include <iostream>
@@ -16,7 +17,9 @@ using namespace std;
 int main(void) {
 
     string name = "RyanK";
-    HashTable table;
+    //HashTable table(2);
+    //HashTable table(4);
+    HashTable table(8);
 
     cout << "Add names to the table.  Stop by typing quit. " << endl;
 
