@@ -16,9 +16,8 @@
 #include <string>
 
 
-//TODO:  I would like to figure out a way to adjust the size of the hashTable
-//       It would be nice to figure out some of the more advanced hashing functions
-//       Possibly template this out, but i cant currently think of a reason as to why yet
+//TODO:    It would be nice to figure out some of the more advanced hashing functions
+
 
 class HashTable {
 public:
@@ -26,8 +25,18 @@ public:
     //constructor
     HashTable() {}
 
+
+    //allows you to create a hash table with a size of size
+    HashTable(int size) {
+        hashTableSize = size;
+        hashTable = new List<std::string>[size];
+    }
+
+
     //destructor
-    ~HashTable() {}
+    ~HashTable() {
+        delete hashTable;
+    }
 
 
     //incase you know what position you want to insert the data into
@@ -58,10 +67,10 @@ public:
 
 private:
 
-    static const int hashTableSize = 10;    //currently a fixed size, which is annoying and not practical
-    List<std::string> hashTable[hashTableSize];
+    int hashTableSize;
+    List<std::string> *hashTable;
 
-    //hash function, I understand this is not the best solution
+    //hash function, I do understand this is not the best solution for a hashing function
     int Hash(std::string key) {
 
         int hash = 0;
