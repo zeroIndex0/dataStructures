@@ -74,7 +74,7 @@ void preOrder(BinaryTree<int> *t) {
 
 int main(void) {
 
-    BinaryTree<int> *t = NULL;
+    BinaryTree<int> *t = nullptr;
     int data;
 
     do {
