@@ -224,6 +224,8 @@ public:
         //INTERESTING... If i prepend data it shoves the value in the front and messes up the addressing
         //               so if i prepend my data i cannot use this function, how could that problem be fixed?
         //               I have no idea as to how i can fix this addressing issue.  I have found nothing online about something like this.
+        //  I keep thinking about this and I wonder if I would have to just reorder the entire list after every new entry on a prepend
+        //      It will make the list run slower but I cannot think of another way to deal with the addressing issue
         bool operator>=(const iterator &rhs) {
             std::cout << "Current: " << current << "    rhs.current: " << rhs.current << std::endl;
             if(current >= rhs.current){
